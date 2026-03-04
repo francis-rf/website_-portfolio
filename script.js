@@ -1,58 +1,75 @@
 /* ══════════════════════════════════════════════════════
    PORTFOLIO — script.js
-   Handles: particles · typewriter · scroll reveals
+   Handles: neural bg · typewriter · scroll reveals
             countUp · 3D tilt · active nav · hamburger
 ══════════════════════════════════════════════════════ */
 
-/* ── 1. PARTICLES ──────────────────────────────────── */
-function initParticles() {
-  if (typeof tsParticles === 'undefined') return;
+/* ── 1. THREE.JS NEURAL NETWORK BACKGROUND ────────── */
+function initNeuralBg() {
+  const canvas = document.getElementById('neural-bg');
+  if (!canvas || typeof THREE === 'undefined') return;
 
-  tsParticles.load('tsparticles', {
-    background: { color: { value: 'transparent' } },
-    fpsLimit: 60,
-    particles: {
-      number: {
-        value: 70,
-        density: { enable: true, area: 900 }
-      },
-      color: { value: '#00f5ff' },
-      shape: { type: 'circle' },
-      opacity: {
-        value: 0.45,
-        random: { enable: true, minimumValue: 0.1 }
-      },
-      size: {
-        value: { min: 1, max: 2.5 }
-      },
-      links: {
-        enable: true,
-        distance: 140,
-        color: '#00f5ff',
-        opacity: 0.18,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 1.2,
-        direction: 'none',
-        random: true,
-        straight: false,
-        outModes: { default: 'out' }
+  const scene    = new THREE.Scene();
+  const camera   = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const COUNT = 120;
+  const geo   = new THREE.BufferGeometry();
+  const pos   = new Float32Array(COUNT * 3);
+  const vel   = new Float32Array(COUNT * 3);
+  for (let i = 0; i < COUNT * 3; i++) {
+    pos[i] = (Math.random() - 0.5) * 12;
+    vel[i] = (Math.random() - 0.5) * 0.008;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({ color: 0x00f5ff, size: 0.045, transparent: true, opacity: 0.6 });
+  scene.add(new THREE.Points(geo, mat));
+
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.12 });
+  let lineGroup = new THREE.Group();
+  scene.add(lineGroup);
+
+  camera.position.z = 5;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const p = geo.attributes.position.array;
+
+    for (let i = 0; i < COUNT; i++) {
+      p[i*3]   += vel[i*3];
+      p[i*3+1] += vel[i*3+1];
+      p[i*3+2] += vel[i*3+2];
+      if (Math.abs(p[i*3])   > 6) vel[i*3]   *= -1;
+      if (Math.abs(p[i*3+1]) > 6) vel[i*3+1] *= -1;
+      if (Math.abs(p[i*3+2]) > 6) vel[i*3+2] *= -1;
+    }
+    geo.attributes.position.needsUpdate = true;
+
+    lineGroup.clear();
+    for (let i = 0; i < COUNT; i++) {
+      for (let j = i + 1; j < COUNT; j++) {
+        const dx = p[i*3] - p[j*3], dy = p[i*3+1] - p[j*3+1], dz = p[i*3+2] - p[j*3+2];
+        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+        if (dist < 1.8) {
+          const lg = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(p[i*3], p[i*3+1], p[i*3+2]),
+            new THREE.Vector3(p[j*3], p[j*3+1], p[j*3+2])
+          ]);
+          lineGroup.add(new THREE.Line(lg, lineMat));
+        }
       }
-    },
-    interactivity: {
-      events: {
-        onHover: { enable: true, mode: 'repulse' },
-        onClick: { enable: true, mode: 'push' },
-        resize: true
-      },
-      modes: {
-        repulse: { distance: 90, duration: 0.4 },
-        push:    { quantity: 3 }
-      }
-    },
-    detectRetina: true
+    }
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
   });
 }
 
@@ -298,9 +315,146 @@ function initHamburger() {
   });
 }
 
+/* ── 11. AI CHAT WIDGET ────────────────────────────── */
+function initChatWidget() {
+  const bubble   = document.getElementById('chat-bubble');
+  const widget   = document.getElementById('chat-widget');
+  const closeBtn = document.getElementById('chat-close');
+  const input    = document.getElementById('chat-input');
+  const sendBtn  = document.getElementById('chat-send');
+  const messages = document.getElementById('chat-messages');
+
+  if (!bubble || !widget) return;
+
+  const API_URL    = '/api/chat';
+  let   greeted    = false;
+  let   isThinking = false;
+
+  /* ── helpers ── */
+  function scrollToBottom() {
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function linkify(str) {
+    return str.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  }
+
+  function appendMsg(role, text) {
+    const div = document.createElement('div');
+    div.classList.add('chat-msg', role);
+    div.innerHTML = linkify(text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+    messages.appendChild(div);
+    scrollToBottom();
+    return div;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.classList.add('chat-msg', 'typing');
+    div.id = 'typing-indicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  function showError(msg) {
+    const div = document.createElement('div');
+    div.classList.add('chat-msg', 'error');
+    div.textContent = msg;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  /* ── open / close ── */
+  function openWidget() {
+    widget.classList.add('open');
+    widget.setAttribute('aria-hidden', 'false');
+    bubble.setAttribute('aria-expanded', 'true');
+    input.focus();
+
+    if (!greeted) {
+      greeted = true;
+      setTimeout(() => {
+        appendMsg('bot',
+          "Hi! I'm Francis's AI assistant 👋 Ask me about his projects, skills, or how to get in touch."
+        );
+      }, 280);
+    }
+  }
+
+  function closeWidget() {
+    widget.classList.remove('open');
+    widget.setAttribute('aria-hidden', 'true');
+    bubble.setAttribute('aria-expanded', 'false');
+  }
+
+  bubble.addEventListener('click', () => {
+    widget.classList.contains('open') ? closeWidget() : openWidget();
+  });
+
+  closeBtn.addEventListener('click', closeWidget);
+
+  /* ── send message ── */
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text || isThinking) return;
+
+    appendMsg('user', text);
+    input.value  = '';
+    isThinking   = true;
+    sendBtn.disabled = true;
+    showTyping();
+
+    try {
+      const res = await fetch(API_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ message: text })
+      });
+
+      removeTyping();
+
+      if (!res.ok) {
+        showError(`Server error (${res.status}). Is the API running?`);
+      } else {
+        const data = await res.json();
+        appendMsg('bot', data.reply || 'No response received.');
+      }
+    } catch (err) {
+      removeTyping();
+      showError('Could not reach the API. Run: uvicorn api:app --port 8000');
+    } finally {
+      isThinking       = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  /* ── Escape key closes widget ── */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && widget.classList.contains('open')) {
+      closeWidget();
+    }
+  });
+}
+
 /* ── INIT ALL ──────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  initParticles();
+  initNeuralBg();
   initTypewriter();
   initReveal();
   initCountUp();
@@ -310,6 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbarScroll();
   initSmoothScroll();
   initHamburger();
+  initChatWidget();
 
   // Stats section: also trigger visible class so numbers play
   const aboutSection = document.getElementById('about');

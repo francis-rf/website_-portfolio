@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Francis Ramanadhula — Resume</title>
+    <style>
+      /* ── BASE & RESET ── */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+        background: #fdfdfd;
+        line-height: 1.5;
+        max-width: 850px;
+        margin: 0 auto;
+        padding: 24px 36px;
+      }
+
+      a {
+        color: #1a6b8a;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* ── HEADER ── */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #1a6b8a;
+        padding-bottom: 6px;
+        margin-bottom: 12px;
+      }
+      .header-left h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #1a6b8a;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 2px;
+      }
+      .header-left .title {
+        font-size: 14.5px;
+        font-weight: 600;
+        color: #444;
+      }
+      .header-right {
+        text-align: right;
+        font-size: 12px;
+        color: #444;
+        line-height: 1.5;
+      }
+
+      /* ── LAYOUT / SECTIONS ── */
+      .section {
+        display: flex;
+        margin-bottom: 12px;
+      }
+      .section-title-col {
+        width: 140px;
+        flex-shrink: 0;
+        padding-right: 16px;
+      }
+      .section-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #1a6b8a;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        line-height: 1.3;
+      }
+      .section-content {
+        flex-grow: 1;
+        border-left: 1px solid #c2e0ee;
+        padding-left: 16px;
+      }
+
+      /* ── LISTS & TYPOGRAPHY ── */
+      p {
+        margin-bottom: 4px;
+        text-align: justify;
+      }
+      ul {
+        list-style: none;
+        margin-bottom: 4px;
+      }
+      ul li {
+        position: relative;
+        padding-left: 12px;
+        margin-bottom: 3px;
+      }
+      ul li::before {
+        content: "●";
+        position: absolute;
+        left: 0;
+        color: #1a6b8a;
+        font-size: 9px;
+        top: 3px;
+      }
+      ul li ul li::before {
+        content: "○";
+        font-size: 9px;
+        top: 2px;
+      }
+
+      strong {
+        font-weight: 600;
+        color: #111;
+      }
+
+      /* ── ITEM CONTAINERS ── */
+      .item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2px;
+      }
+      .item-title {
+        font-weight: 700;
+        font-size: 13px;
+        color: #111;
+      }
+      .item-title a {
+        color: #1a6b8a;
+        transition: color 0.2s;
+      }
+      .item-title a:hover {
+        color: #0f4c75;
+      }
+      .item-subtitle {
+        font-style: italic;
+        color: #444;
+        font-size: 12px;
+      }
+      .item-date {
+        font-size: 12px;
+        color: #1a6b8a;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* ── SKILLS ROW ── */
+      .skills-row {
+        margin-bottom: 4px;
+      }
+      .skills-row strong {
+        margin-right: 4px;
+      }
+
+      /* ── PRINT STYLES ── */
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+      @media print {
+        body {
+          margin: 0;
+          padding: 0;
+          font-size: 13.5px;
+          line-height: 1.35;
+          background: #fff;
+          max-width: 100%;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .header {
+          margin-bottom: 6px;
+          padding-bottom: 4px;
+        }
+        .header-left h1 {
+          font-size: 26px;
+        }
+        .header-left .title {
+          font-size: 14px;
+        }
+        .header-right {
+          font-size: 12px;
+        }
+        .section {
+          page-break-inside: avoid;
+          margin-bottom: 5px;
+        }
+        .section-title {
+          font-size: 12px;
+        }
+        .section-title-col {
+          width: 135px;
+        }
+        .item-title {
+          font-size: 13.5px;
+        }
+        .item-subtitle {
+          font-size: 12px;
+        }
+        .item-date {
+          font-size: 12px;
+        }
+        p {
+          margin-bottom: 2px;
+        }
+        ul {
+          margin-bottom: 2px;
+        }
+        ul li {
+          margin-bottom: 1px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-left">
+        <h1>Francis Ramanadhula</h1>
+        <div class="title">AI Engineer</div>
+      </div>
+      <div class="header-right">
+        Kadapa, Andhra Pradesh, India<br />
+        +91 9848033419 | rfrancis789@email.com<br />
+        <a href="https://francis-rf.github.io" target="_blank">Portfolio</a> |
+        <a href="https://github.com/francis-rf" target="_blank">GitHub</a> |
+        <a href="https://www.linkedin.com/in/francis-rf/" target="_blank"
+          >LinkedIn</a
+        >
+      </div>
+    </div>
+
+    <!-- PROFILE SUMMARY -->
+    <div class="section">
+      <div class="section-title-col">
+        <div class="section-title">PROFILE<br />SUMMARY</div>
+      </div>
+      <div class="section-content">
+        <p>
+          Results-driven Software Engineer transitioning into AI Engineering,
+          building and deploying production-ready intelligent systems. Combines
+          enterprise development experience with expertise in
+          <strong>LangChain</strong>, <strong>LangGraph</strong>,
+          <strong>Model Context Protocol</strong>, multi-agent architectures,
+          <strong>RAG pipelines</strong>, vector databases, and AWS. Delivers
+          end-to-end AI applications—from agent design to containerized cloud
+          deployment with <strong>CI/CD automation</strong>—focused on scalable, real-world LLM
+          solutions.
+        </p>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section">
+      <div class="section-title-col">
+        <div class="section-title">SKILLS</div>
+      </div>
+      <div class="section-content">
+        <ul>
+          <li>
+            <strong>AI/LLMs:</strong> LangChain | LangGraph | CrewAI | OpenAI
+            API | Groq | Google Gemini | MCP Protocol | AWS Bedrock AgentCore |
+            Sentence Transformers | RAG
+          </li>
+          <li>
+            <strong>Backend:</strong> Python | FastAPI | Pydantic | REST API |
+             WebSockets | C# | .NET WinForms | ADO.NET
+          </li>
+          <li>
+            <strong>Cloud / DevOps:</strong> AWS EC2 | ECS Fargate | App Runner
+            | Bedrock AgentCore | Docker | GitHub Actions | ECR | S3 | Secrets
+            Manager | CloudWatch
+          </li>
+          <li>
+            <strong>Frontend:</strong> HTML | CSS | JavaScript | Responsive
+            Design
+          </li>
+          <li>
+            <strong>Tools &amp; DBs:</strong> Git | VS Code | Postman | Chroma
+            DB | MySQL | SQL Server | FAISS
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- WORK EXPERIENCE -->
+    <div class="section">
+      <div class="section-title-col">
+        <div class="section-title">WORK<br />EXPERIENCE</div>
+      </div>
+      <div class="section-content">
+        <div class="item-header">
+          <div>
+            <span class="item-title">Capgemini</span>
+            <span class="item-subtitle">— Associate I</span>
+          </div>
+          <div class="item-date">February 2022 – Present</div>
+        </div>
+        <div>
+          <span class="item-subtitle">Bengaluru, Karnataka, India</span>
+        </div>
+        <ul>
+          <li>
+            Built a custom Content Management System using C#, VB, and .NET to
+            automate the parsing and processing of unstructured data in
+            PowerPoint presentations.
+          </li>
+          <li>
+            Developed a keyword-driven extraction engine to dynamically compile
+            relevant slide content into new presentations, reducing manual
+            effort.
+          </li>
+          <li>
+            Integrated SQL Server to optimize data retrieval and keyword
+            tracking, reducing manual slide processing time by
+            <strong>60%</strong>.
+          </li>
+          <li>
+            Managed the full Software Development Lifecycle, driving features
+            from requirement gathering and system design through to coding,
+            deployment, and performance optimization.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="section">
+      <div class="section-title-col">
+        <div class="section-title">PROJECTS</div>
+      </div>
+      <div class="section-content">
+        <!-- 1 -->
+        <div class="item-header">
+          <span class="item-title"
+            ><a
+              href="https://github.com/francis-rf/multimodal-ai-chatbot"
+              target="_blank"
+              >OmniChat</a
+            >
+            |
+            <span style="font-weight: normal; color: #333"
+              >Multi-Modal AI Chatbot</span
+            ></span
+          >
+        </div>
+        <ul>
+          <li>
+            Built a unified AI interface supporting vision, TTS, image
+            generation, and web search across <strong>6 LLM providers</strong>; deployed on AWS
+            App Runner with CI/CD.<br /><span class="item-subtitle"
+              >[FastAPI / Groq / Gemini / Stable Diffusion / OpenAI]</span
+            >
+          </li>
+        </ul>
+
+      
+        <div class="item-header">
+          <span class="item-title"
+            ><a
+              href="https://github.com/francis-rf/RAG-document-qa"
+              target="_blank"
+              >RAG ReAct Agent</a
+            >
+            |
+            <span style="font-weight: normal; color: #333"
+              >Document Search System</span
+            ></span
+          >
+        </div>
+        <ul>
+          <li>
+            Developed a semantic PDF search system using <strong>ReAct agent
+            orchestration</strong> with persistent FAISS vector store and Tavily
+            fallback; deployed on ECS Fargate with ALB. <br /><span
+              class="item-subtitle"
+              >[LangChain / LangGraph / FAISS / OpenAI]</span
+            >
+          </li>
+        </ul>
+
+        <!-- 3 -->
+        <div class="item-header">
+          <span class="item-title"
+            ><a
+              href="https://github.com/francis-rf/code-review-crew"
+              target="_blank"
+              >AI Code Review Crew</a
+            >
+            |
+            <span style="font-weight: normal; color: #333"
+              >Multi-Agent Analyzer</span
+            ></span
+          >
+        </div>
+        <ul>
+          <li>
+            Designed a <strong>5-agent system</strong> to analyze Python code for bugs, OWASP Top
+            10 vulnerabilities, performance issues, and documentation quality
+            with severity scoring.<br/><span class="item-subtitle"
+              >[CrewAI / FastAPI / OpenAI]</span
+            >
+          </li>
+        </ul>
+
+        <!-- 4 -->
+        <div class="item-header">
+          <span class="item-title"
+            ><a
+              href="https://github.com/francis-rf/study-Tools-mcp-server"
+              target="_blank"
+              >Study Tools MCP</a
+            >
+            |
+            <span style="font-weight: normal; color: #333"
+              >AI Study Assistant</span
+            ></span
+          >
+        </div>
+        <ul>
+          <li>
+            Built a Claude Desktop–integrated study assistant via <strong>MCP</strong> to
+            generate quizzes, flashcards, and explanations from PDFs; deployed
+            on EC2.<br /><span class="item-subtitle"
+              >[MCP / FastAPI / OpenAI / AWS EC2 / S3]</span
+            >
+          </li>
+        </ul>
+
+        <!-- 5 -->
+        <div class="item-header">
+          <span class="item-title"
+            ><a
+              href="https://github.com/francis-rf/faq-bedrock-agentcore"
+              target="_blank"
+              >Lauki FAQ Agent</a
+            >
+            |
+            <span style="font-weight: normal; color: #333"
+              >Conversational Support AI</span
+            ></span
+          >
+        </div>
+        <ul>
+          <li>
+            Built a customer support agent with persistent conversation memory
+            via <strong>AWS Bedrock AgentCore</strong>, semantic FAQ search using FAISS +
+            sentence-transformers, and fully automated CI/CD.<br /><span
+              class="item-subtitle"
+              >[LangGraph / FAISS / AWS Bedrock AgentCore / Docker]</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-title-col">
+        <div class="section-title">EDUCATION</div>
+      </div>
+      <div class="section-content">
+        <div class="item-header">
+          <div>
+            <span class="item-title">KSRM College of Engineering</span>
+          </div>
+          <div class="item-date">06/2016 – 07/2020</div>
+        </div>
+        <div>
+          <span class="item-title" style="font-weight: normal"
+            >B.Tech in Computer Science and Engineering</span
+          >
+        </div>
+        <div>
+          <span class="item-subtitle">Kadapa, Andhra Pradesh, India</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <div class="section" style="margin-bottom: 0">
+      <div class="section-title-col">
+        <div class="section-title">CERTIFICATES</div>
+      </div>
+      <div class="section-content">
+        <ul>
+          <li>
+            <strong>Gen AI &amp; Data Science Bootcamp</strong>, Code Basics
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
