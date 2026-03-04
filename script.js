@@ -15,21 +15,26 @@ function initNeuralBg() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const COUNT = 120;
+  const COUNT = 80;
   const geo   = new THREE.BufferGeometry();
   const pos   = new Float32Array(COUNT * 3);
   const vel   = new Float32Array(COUNT * 3);
   for (let i = 0; i < COUNT * 3; i++) {
     pos[i] = (Math.random() - 0.5) * 12;
-    vel[i] = (Math.random() - 0.5) * 0.008;
+    vel[i] = (Math.random() - 0.5) * 0.006;
   }
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({ color: 0x00f5ff, size: 0.045, transparent: true, opacity: 0.6 });
+  const mat = new THREE.PointsMaterial({ color: 0x00f5ff, size: 0.05, transparent: true, opacity: 0.6 });
   scene.add(new THREE.Points(geo, mat));
 
-  const lineMat = new THREE.LineBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.12 });
-  let lineGroup = new THREE.Group();
-  scene.add(lineGroup);
+  /* pre-allocated line buffer — no new objects per frame */
+  const MAX_LINES = 300;
+  const linePos   = new Float32Array(MAX_LINES * 6);
+  const lineGeo   = new THREE.BufferGeometry();
+  lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+  lineGeo.setDrawRange(0, 0);
+  const lineMat   = new THREE.LineBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.12 });
+  scene.add(new THREE.LineSegments(lineGeo, lineMat));
 
   camera.position.z = 5;
 
@@ -47,20 +52,21 @@ function initNeuralBg() {
     }
     geo.attributes.position.needsUpdate = true;
 
-    lineGroup.clear();
-    for (let i = 0; i < COUNT; i++) {
-      for (let j = i + 1; j < COUNT; j++) {
-        const dx = p[i*3] - p[j*3], dy = p[i*3+1] - p[j*3+1], dz = p[i*3+2] - p[j*3+2];
-        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-        if (dist < 1.8) {
-          const lg = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(p[i*3], p[i*3+1], p[i*3+2]),
-            new THREE.Vector3(p[j*3], p[j*3+1], p[j*3+2])
-          ]);
-          lineGroup.add(new THREE.Line(lg, lineMat));
+    /* update lines in pre-allocated buffer */
+    let idx = 0;
+    for (let i = 0; i < COUNT && idx < MAX_LINES * 6; i++) {
+      for (let j = i + 1; j < COUNT && idx < MAX_LINES * 6; j++) {
+        const dx = p[i*3]-p[j*3], dy = p[i*3+1]-p[j*3+1], dz = p[i*3+2]-p[j*3+2];
+        if (dx*dx + dy*dy + dz*dz < 3.24) {
+          linePos[idx++] = p[i*3]; linePos[idx++] = p[i*3+1]; linePos[idx++] = p[i*3+2];
+          linePos[idx++] = p[j*3]; linePos[idx++] = p[j*3+1]; linePos[idx++] = p[j*3+2];
         }
       }
     }
+    /* zero out unused buffer space */
+    for (let k = idx; k < MAX_LINES * 6; k++) linePos[k] = 0;
+    lineGeo.attributes.position.needsUpdate = true;
+    lineGeo.setDrawRange(0, idx / 3);
 
     renderer.render(scene, camera);
   }
