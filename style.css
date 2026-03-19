@@ -985,6 +985,27 @@ img {
   letter-spacing: 0.03em;
 }
 
+.card-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(0, 255, 136, 0.12);
+  z-index: 1;
+}
+.metric-pill {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--neon-green);
+  background: rgba(0, 255, 136, 0.06);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
 .card-footer {
   border-top: 1px solid var(--border-subtle);
   padding-top: 0.9rem;

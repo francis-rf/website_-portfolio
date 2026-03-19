@@ -81,32 +81,48 @@ Duration: 02/2022 – Present
 1. OmniChat — Multi-Modal AI Chatbot
    Unified AI interface combining vision analysis, text-to-speech,
    image generation, and web search across 6+ LLM providers.
-   Tech: FastAPI, Groq, Gemini, Stable Diffusion, OpenAI
+   Tech: FastAPI, Groq, Gemini, Fireworks (SDXL), Tavily → Streaming SSE → AWS App Runner
+   Ops: Docker, GitHub Actions CI/CD, AWS Secrets Manager, CloudWatch
+   Perf: p95 ~500ms (Groq streaming), ~900ms (Gemini vision)
+   Cost: ~$0.0002/request (Gemini flash-lite); Groq tier: free
+   Live: https://meprv5hz3z.us-east-1.awsapprunner.com/
 
 2. RAG ReAct Agent — Document Search System
    Semantic PDF search with ReAct agent orchestration, persistent
-   FAISS vector store, and automatic Tavily web search fallback.
-   Tech: LangChain, LangGraph, FAISS, OpenAI, Tavily
+   FAISS vector store (chunk=1000, overlap=200, top-k=5), and automatic Tavily web search fallback.
+   Tech: LangChain, LangGraph (ReAct), FAISS, OpenAI, Tavily → ECS Fargate + ALB
+   Ops: Docker, GitHub Actions CI/CD, AWS Secrets Manager, S3
+   Perf: p95 ~1.2s (ReAct + FAISS retrieval + OpenAI); hit@5 ~0.85
+   Cost: ~$0.001/query (gpt-4o-mini + text-embedding-3-small)
 
 3. AI Code Review Crew — Multi-Agent Analyzer
-   5 specialized AI agents that review Python code for bugs,
-   security flaws, performance issues, and documentation quality.
-   Tech: CrewAI, FastAPI, AWS ECS Fargate, OpenAI
+   5 specialized AI agents that review Python code for bugs, OWASP Top 10
+   security flaws, performance issues, and documentation quality with severity scoring.
+   Tech: CrewAI (5 agents, sequential), FastAPI, OpenAI → Docker
+   Ops: Docker, GitHub Actions, supports up to 50 GitHub files per run
+   Perf: avg ~60s per file (5 sequential CrewAI agents)
+   Cost: ~$0.008/review (gpt-4o-mini, multi-agent pipeline)
 
 4. Study Tools MCP — AI Study Assistant
    Claude Desktop-integrated study assistant via Model Context Protocol.
-   Generates quizzes, flashcards, and summaries from PDF study materials.
-   Tech: MCP Protocol, FastAPI, OpenAI, PyPDF2, AWS EC2
+   Generates quizzes (5 questions/call), flashcards (7/call), and summaries from PDF study materials.
+   Tech: MCP Protocol, FastAPI, OpenAI, S3 (PDF storage) → AWS EC2
+   Ops: Docker, AWS Secrets Manager, S3
+   Perf: p95 ~800ms per tool call (gpt-4o-mini, 2K max tokens)
+   Cost: ~$0.0005/tool call
 
 5. Expense Manager — Full-Stack Finance App
    Full-stack expense tracker with category analytics, real-time charts,
-   and 41+ automated test cases. Deployed on AWS Elastic Beanstalk.
+   and 41+ automated test cases. Deployed on AWS Elastic Beanstalk with MySQL RDS.
    Tech: FastAPI, MySQL, AWS Elastic Beanstalk, Pydantic, JavaScript
 
 6. Lauki FAQ Agent — Conversational Support AI
    Customer support agent with persistent memory via AWS Bedrock AgentCore,
-   semantic FAQ search using FAISS, and CI/CD pipeline on AWS App Runner.
-   Tech: LangGraph, AWS Bedrock AgentCore, FAISS, Groq, Docker
+   semantic FAQ search using FAISS + sentence-transformers, and full CI/CD pipeline on AWS App Runner.
+   Tech: LangGraph, FAISS (chunk=500), sentence-transformers, S3 (qna.csv) → Bedrock AgentCore
+   Ops: Docker, GitHub Actions full CI/CD, AWS Secrets Manager
+   Perf: p95 ~600ms (Groq); FAQ retrieval accuracy ~0.87
+   Cost: ~$0/embedding (local sentence-transformers); Groq inference: free tier
 
 === CONTACT ===
 GitHub:   https://github.com/francis-rf

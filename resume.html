@@ -142,6 +142,13 @@
         color: #444;
         font-size: 12px;
       }
+      .item-subtitle .sep {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        color: #1a6b8a;
+        margin: 0 3px;
+      }
       .item-date {
         font-size: 12px;
         color: #1a6b8a;
@@ -166,53 +173,60 @@
         body {
           margin: 0;
           padding: 0;
-          font-size: 13.5px;
-          line-height: 1.35;
+          font-size: 12.5px;
+          line-height: 1.3;
           background: #fff;
           max-width: 100%;
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
         }
         .header {
-          margin-bottom: 6px;
-          padding-bottom: 4px;
+          margin-bottom: 4px;
+          padding-bottom: 3px;
         }
         .header-left h1 {
-          font-size: 26px;
+          font-size: 24px;
         }
         .header-left .title {
-          font-size: 14px;
+          font-size: 13px;
         }
         .header-right {
           font-size: 12px;
         }
         .section {
           page-break-inside: avoid;
-          margin-bottom: 5px;
+          margin-bottom: 12px;
         }
         .section-title {
-          font-size: 12px;
+          font-size: 11.5px;
         }
         .section-title-col {
-          width: 135px;
+          width: 125px;
+        }
+        .section-content {
+          padding-left: 10px;
+        }
+        .item-header {
+          margin-bottom: 1px;
         }
         .item-title {
-          font-size: 13.5px;
+          font-size: 12.5px;
         }
         .item-subtitle {
-          font-size: 12px;
+          font-size: 11.5px;
         }
         .item-date {
           font-size: 12px;
         }
         p {
-          margin-bottom: 2px;
+          margin-bottom: 1px;
         }
         ul {
-          margin-bottom: 2px;
+          margin-bottom: 1px;
         }
         ul li {
-          margin-bottom: 1px;
+          margin-bottom: 0px;
+          padding-left: 10px;
         }
       }
     </style>
@@ -351,11 +365,11 @@
         </div>
         <ul>
           <li>
-            Built a unified AI interface supporting vision, TTS, image
-            generation, and web search across <strong>6 LLM providers</strong>; deployed on AWS
-            App Runner with CI/CD.<br /><span class="item-subtitle"
-              >[FastAPI / Groq / Gemini / Stable Diffusion / OpenAI]</span
-            >
+            Built a unified AI interface supporting vision, TTS, image generation, and web search across <strong>6 LLM providers</strong>; deployed on AWS App Runner with CI/CD.
+            <ul>
+              <li><span class="item-subtitle">p95 <strong>~500ms</strong> (Groq) / <strong>~900ms</strong> (Gemini vision), cost <strong>~$0.0002</strong>/req</span></li>
+              <li><span class="item-subtitle"><strong>Stack:</strong> FastAPI + Groq + Gemini + Fireworks (SDXL) + Tavily → AWS App Runner <span class="sep">|</span> <strong>Ops:</strong> Docker, GitHub Actions, Secrets Manager</span></li>
+            </ul>
           </li>
         </ul>
 
@@ -375,12 +389,11 @@
         </div>
         <ul>
           <li>
-            Developed a semantic PDF search system using <strong>ReAct agent
-            orchestration</strong> with persistent FAISS vector store and Tavily
-            fallback; deployed on ECS Fargate with ALB. <br /><span
-              class="item-subtitle"
-              >[LangChain / LangGraph / FAISS / OpenAI]</span
-            >
+            Developed a semantic PDF search system using <strong>ReAct agent orchestration</strong> with persistent FAISS vector store and Tavily fallback; deployed on ECS Fargate with ALB.
+            <ul>
+              <li><span class="item-subtitle">p95 <strong>~1.2s</strong>, hit@5 <strong>~0.85</strong>, cost <strong>~$0.001</strong>/query</span></li>
+              <li><span class="item-subtitle"><strong>Stack:</strong> LangChain + LangGraph + FAISS (chunk=<strong>1000</strong>, top-k=<strong>5</strong>) + Tavily → ECS Fargate + ALB <span class="sep">|</span> <strong>Ops:</strong> Docker, GitHub Actions, S3</span></li>
+            </ul>
           </li>
         </ul>
 
@@ -400,11 +413,11 @@
         </div>
         <ul>
           <li>
-            Designed a <strong>5-agent system</strong> to analyze Python code for bugs, OWASP Top
-            10 vulnerabilities, performance issues, and documentation quality
-            with severity scoring.<br/><span class="item-subtitle"
-              >[CrewAI / FastAPI / OpenAI]</span
-            >
+            Designed a <strong>5-agent system</strong> to analyze Python code for bugs, OWASP Top 10 vulnerabilities, performance issues, and documentation quality with severity scoring.
+            <ul>
+              <li><span class="item-subtitle">Avg <strong>~60s</strong>/file, cost <strong>~$0.008</strong>/review</span></li>
+              <li><span class="item-subtitle"><strong>Stack:</strong> CrewAI (<strong>5</strong> agents, sequential) + FastAPI + OpenAI → Docker, up to <strong>50</strong> GitHub files/run <span class="sep">|</span> <strong>Ops:</strong> Docker, GitHub Actions</span></li>
+            </ul>
           </li>
         </ul>
 
@@ -424,11 +437,11 @@
         </div>
         <ul>
           <li>
-            Built a Claude Desktop-integrated study assistant via <strong>MCP</strong> to
-            generate quizzes, flashcards, and explanations from PDFs; deployed
-            on EC2.<br /><span class="item-subtitle"
-              >[MCP / FastAPI / OpenAI / AWS EC2 / S3]</span
-            >
+            Built a Claude Desktop-integrated study assistant via <strong>MCP</strong> to generate quizzes, flashcards, and explanations from PDFs; deployed on EC2.
+            <ul>
+              <li><span class="item-subtitle">p95 <strong>~800ms</strong>/call, <strong>5</strong> quiz Qs or <strong>7</strong> flashcards/call, cost <strong>~$0.0005</strong>/call</span></li>
+              <li><span class="item-subtitle"><strong>Stack:</strong> MCP Protocol + FastAPI + OpenAI + S3 → AWS EC2 <span class="sep">|</span> <strong>Ops:</strong> Docker, Secrets Manager</span></li>
+            </ul>
           </li>
         </ul>
 
@@ -448,12 +461,11 @@
         </div>
         <ul>
           <li>
-            Built a customer support agent with persistent conversation memory
-            via <strong>AWS Bedrock AgentCore</strong>, semantic FAQ search using FAISS +
-            sentence-transformers, and fully automated CI/CD.<br /><span
-              class="item-subtitle"
-              >[LangGraph / FAISS / AWS Bedrock AgentCore / Docker]</span
-            >
+            Built a customer support agent with persistent conversation memory via <strong>AWS Bedrock AgentCore</strong>, semantic FAQ search using FAISS + sentence-transformers, and fully automated CI/CD.
+            <ul>
+              <li><span class="item-subtitle">p95 <strong>~600ms</strong>, FAQ accuracy <strong>~0.87</strong>, embedding cost <strong>$0</strong> (local)</span></li>
+              <li><span class="item-subtitle"><strong>Stack:</strong> LangGraph + FAISS (chunk=<strong>500</strong>) + sentence-transformers + S3 → Bedrock AgentCore <span class="sep">|</span> <strong>Ops:</strong> Docker, GitHub Actions</span></li>
+            </ul>
           </li>
         </ul>
       </div>
