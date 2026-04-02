@@ -41,26 +41,26 @@ If asked about something unrelated, politely redirect to his work.
 Name: Francis Ramanadhula
 Role: AI Engineer
 Location: Kadapa, Andhra Pradesh, India
-Bio: AI Engineer with hands-on experience designing and deploying LLM-based systems — RAG pipelines,
-     multi-agent workflows, and conversational AI — across 5 production projects on AWS. Combines 3+
-     years of backend engineering with deep expertise in LangChain, LangGraph, Model Context Protocol,
-     RAG pipelines, vector databases, and cloud deployment with CI/CD automation.
+Bio: AI Engineer with 4 years of backend engineering experience in C#/.NET and 2+ years building
+     production-grade LLM systems — multi-model routing, RAG pipelines, ReAct agents, and MCP
+     integrations deployed on AWS. Proven focus on latency optimization, cost efficiency, and
+     end-to-end delivery.
 
 === SKILLS ===
+Programming Languages:
+  - Python, C++, C#
+
+Backend & API:
+  - FastAPI, REST APIs, WebSockets, .NET
+
 LLM Systems:
-  - RAG, ReAct Agents, Multi-Agent Systems, Prompt Engineering, Tool Calling, MCP
+  - RAG, ReAct Agents, Multi-Agent Systems, Prompt Engineering, LangChain, LangGraph, CrewAI, MCP
 
-Vector Search:
-  - FAISS, Embeddings (OpenAI, sentence-transformers), Semantic Search
-
-Backend:
-  - Python (FastAPI), REST APIs, WebSockets, C#, .NET
+Databases:
+  - MySQL, FAISS, Pinecone, Chroma, OpenAI Embeddings, Sentence Transformers
 
 Cloud & DevOps:
   - AWS (ECS Fargate, EC2, App Runner, S3, Bedrock AgentCore), Docker, CI/CD, GitHub Actions
-
-Optimization:
-  - Latency (p95), Cost Optimization, Retrieval Metrics (hit@k), System Reliability
 
 === WORK EXPERIENCE ===
 Company: Capgemini — Associate I
@@ -70,35 +70,30 @@ Duration: 02/2022 – Present
 - Optimized SQL Server queries and data pipelines, improving throughput for large unstructured datasets.
 - Built scalable backend systems for enterprise workflows handling unstructured data at scale.
 - Delivered features across full SDLC — design, development, deployment, and performance optimization.
-
-=== EDUCATION ===
-Institution: KSRM College of Engineering
-Degree: B.Tech in Computer Science and Engineering
-Location: Kadapa, Andhra Pradesh, India
-Duration: 06/2016 – 07/2020
-
-=== CERTIFICATES ===
-- Gen AI & Data Science Bootcamp, Code Basics
+- Developed an Intelligent Query Routing Platform integrating multiple LLM providers (OpenAI, Groq, Gemini, Llama) with dynamic fallback strategies based on cost and latency; delivered p95 500–900ms.
+- Architected an Enterprise Knowledge Retrieval System using LangChain + LangGraph with ReAct-based tool orchestration over 1K–3K document chunks via FAISS; integrated AWS Bedrock AgentCore for persistent conversational memory, achieving ~85% retrieval accuracy (hit@5) at p95 ~1.2s.
 
 === PROJECTS ===
 
-1. OmniChat — Multi-Modal LLM Application
-   Multi-modal AI application integrating 6 LLM providers (OpenAI, Groq, Gemini, Llama) with an
-   LLM routing layer for dynamic model selection based on latency and cost. Supports tool calling
-   with web search (Tavily), vision, TTS, and image generation.
+1. Intelligent Query Routing Platform — Multi-Model LLM Routing System
+   Designed a multi-provider LLM routing layer integrating OpenAI, Groq, Gemini, and Llama with
+   dynamic fallback and routing strategies based on response time and cost constraints. Implements
+   tool calling with web search for real-time knowledge augmentation across text, vision, TTS, and
+   image generation.
    Tech: FastAPI, Groq, Gemini, Fireworks (SDXL), Tavily → Streaming SSE → AWS App Runner
    Ops: Docker, GitHub Actions CI/CD, AWS Secrets Manager, CloudWatch
-   Perf: p95 ~500ms (Groq streaming), ~900ms (Gemini vision)
-   Cost: ~$0.0002/request (Gemini flash-lite); Groq tier: free
+   Perf: p95 500–900ms
+   Cost: ~$0.0002/request; Groq tier: free
    Live: https://meprv5hz3z.us-east-1.awsapprunner.com/
 
-2. RAG Document Search System — LLM + Retrieval
-   RAG system for PDF document Q&A using FAISS vector store, indexing 1K–3K chunks with
-   embedding-based semantic search (top-k=5). ReAct agent workflow via LangGraph with Tavily
-   fallback, reducing failed queries by ~30–40%.
+2. Enterprise Knowledge Retrieval System — Retrieval-Augmented Generation
+   Built a document Q&A system using LangChain + FAISS with semantic retrieval over 1K–3K document
+   chunks. Designed a ReAct workflow using LangGraph with Tavily fallback, reducing failed queries
+   by ~30–40%; integrated AWS Bedrock AgentCore for persistent conversational memory.
+   Attained ~85% retrieval accuracy (hit@5) at p95 ~1.2s.
    Tech: LangChain, LangGraph (ReAct), FAISS, OpenAI, Tavily → ECS Fargate + ALB
    Ops: Docker, GitHub Actions CI/CD, AWS Secrets Manager, S3
-   Perf: p95 ~1.2s; hit@5 ~0.85 retrieval accuracy
+   Perf: p95 ~1.2s; hit@5 ~0.85
    Cost: ~$0.001/query
 
 3. AI Code Review Crew — Multi-Agent LLM System
